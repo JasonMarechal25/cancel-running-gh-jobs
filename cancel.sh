@@ -1,0 +1,1 @@
+gh run list --branch $(git branch --show-current) --json databaseId,status,name,createdAt --jq '[ .[] | select(.status == "in_progress" or .status == "queued") ] | group_by(.name) | map(sort_by(.createdAt) | reverse | .[1:][]) | flatten | .[].databaseId' | xargs -I {} gh run cancel {}
